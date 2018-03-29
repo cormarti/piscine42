@@ -1,0 +1,6 @@
+Credentials cache: API:6013614C-2979-473F-A9A3-15CC868E5D7D
+        Principal: pde-rent@42.FR
+
+  Issued                Expires               Principal
+Aug 28 15:52:39 2017  Sep  4 15:52:27 2017  krbtgt/42.FR@42.FR
+Aug 28 16:06:02 2017  Sep  4 15:52:27 2017  host/vgs-fn1.42.fr@42.FR

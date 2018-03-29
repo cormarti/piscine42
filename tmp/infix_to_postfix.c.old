@@ -1,0 +1,80 @@
+#include <stdlib.h>
+#include "libft.h"
+
+int *stack;
+int stack_top = -1;
+
+int flag = 0;
+
+void bug()
+{
+    ft_putnbr(++flag);
+    ft_putchar('\n');
+}
+
+void push_to_stack(char x)
+{
+    stack[++stack_top] = x;
+}
+ 
+char next_stack(void)
+{
+    if(stack_top == -1)
+        return -1;
+    return stack[stack_top--];
+}
+ 
+int priority(char x)
+{
+    if(x == '(')
+        return 0;
+    if(x == '+' || x == '-')
+        return 1;
+    if(x == '*' || x == '/' || x == '%')
+        return 2;
+    return (0);
+}
+ 
+char    *infix_to_postfix(char *av)
+{
+    char x;
+    char *post_fix;
+    int i;
+    int j;
+    int nb_spaces;
+
+    j = -1;
+    i = -1;
+    nb_spaces = 0;
+    while (av[++i])
+        if (av[i] == ' ')
+            nb_spaces++;
+    stack = (int*)malloc(sizeof(stack) * (ft_strlen(av) * 2)); // PROTECT
+    post_fix = (char*)malloc(sizeof(av) * (ft_strlen(av) * 2)); // PROTECT
+    i = -1;
+    while(av[++i] != '\0'){
+        if(!is_space(av[i]))
+        {
+            if (is_num(av[i]))
+            {
+                if (is_space(av[i-1]))
+                    post_fix[++j] = av[i - 1];
+                post_fix[++j] = av[i];
+            }
+            else if(av[i] == '(')
+                push_to_stack(av[i]);
+            else if(av[i] == ')')
+                while((x = next_stack()) != '(')
+                    post_fix[++j] = x;
+            else if(is_op(av[i]))
+            {
+                while(priority(stack[stack_top]) >= priority(av[i])){
+                    post_fix[++j] = next_stack(); bug();}
+                push_to_stack(av[i]);
+            }
+        }
+    }
+    while(stack_top != -1)
+        post_fix[++j] = next_stack();
+    return (post_fix);
+}
